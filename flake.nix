@@ -2,8 +2,8 @@
   outputs =
     { self }:
     {
-      lib.all-lints =
-        pkgs: rust-toolchain:
+      __functor =
+        self: pkgs: rust-toolchain:
         pkgs.stdenvNoCC.mkDerivation {
           name = "all-lints";
           src = builtins.path {
@@ -171,6 +171,7 @@
               done < ''${out}/sorted-rustc.txt
               echo '}' >> ''${out}/rustc.nix
             '';
+          nativeBuildInputs = [ rust-toolchain ];
         };
     };
 }
