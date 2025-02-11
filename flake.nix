@@ -15,6 +15,7 @@
           installPhase =
             let
               binaries = builtins.mapAttrs (name: from: "${from}/bin/${name}") {
+                cargo-clippy = rust-toolchain;
                 cut = pkgs.coreutils;
                 grep = pkgs.gnugrep;
                 head = pkgs.coreutils;
@@ -22,7 +23,7 @@
                 tail = pkgs.coreutils;
                 tr = pkgs.coreutils;
               };
-              clippy-help-cmd = "cargo clippy --no-deps -- -Zunstable-options -W help > \${out}/clippy-help.txt 2>&1";
+              clippy-help-cmd = "${binaries.cargo-clippy} -- --no-deps -- -Zunstable-options -W help > \${out}/clippy-help.txt 2>&1";
               check-empty = file: ''
                 if [ ! -s "${file}" ]
                 then
